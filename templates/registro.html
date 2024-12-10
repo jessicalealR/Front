@@ -1,0 +1,39 @@
+<script>
+    const form = document.querySelector('form');
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const formData = {
+            documentType: document.getElementById('documentType').value,
+            birthDate: document.getElementById('birthDate').value,
+            expeditionDate: document.getElementById('expeditionDate').value,
+            firstName: document.getElementById('firstName').value,
+            secondName: document.getElementById('secondName').value,
+            email: document.getElementById('email').value,
+            password: document.getElementById('password').value,
+            confirmPassword: document.getElementById('confirmPassword').value,
+            terms: document.getElementById('terms').checked,
+        };
+
+        try {
+            const response = await fetch('/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                alert('Usuario registrado exitosamente');
+            } else {
+                alert(data.error || 'Ocurrió un error al registrar el usuario');
+            }
+        } catch (error) {
+            console.error('Error en la solicitud:', error);
+            alert('Error en la conexión con el servidor');
+        }
+    });
+</script>
